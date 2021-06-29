@@ -1,4 +1,5 @@
 from valvebsp import *
+from valvebsp.lumps import *
 
 
 def clipify(in_bsp, out_bsp):
