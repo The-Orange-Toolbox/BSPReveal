@@ -18,11 +18,22 @@ def clipify(in_bsp, out_bsp):
         texdata = bsp[LUMP_TEXDATA][texinfo.texData]
         texname = bsp[LUMP_TEXDATA_STRING_DATA][texdata.nameStringTableID]
 
-        if texname.startswith('TOOLS/TOOLSBLOCKBULLETS'):
+        if brush.contents.CONTENTS_GRATE:
+            brush.contents.CONTENTS_MONSTERCLIP = True
+            brush.contents.CONTENTS_PLAYERCLIP = True
+
+        elif texname.startswith('TOOLS/TOOLSBLOCKBULLETS'):
             brush.contents.CONTENTS_MONSTERCLIP = True
             bb_count += 1
+            
 
     print('{} blockbullet brushes modified'.format(bb_count))
+
+    # cleanup
+    del bsp[LUMP_BRUSHSIDES]
+    del bsp[LUMP_TEXINFO]
+    del bsp[LUMP_TEXDATA]
+    del bsp[LUMP_TEXDATA_STRING_DATA]
 
     print('Writing {}'.format(os.path.abspath(out_bsp)))
     bsp.save(out_bsp)

@@ -2,7 +2,7 @@ import PyInstaller.__main__
 import datetime
 
 exename = 'drawbbbrushes'
-builddate = datetime.datetime.now().strftime('%b %d, %Y')
+builddate = datetime.datetime.now().strftime('%b %d %Y')
 version = "1.0"
 
 # Write version info into _constants.py resource file
