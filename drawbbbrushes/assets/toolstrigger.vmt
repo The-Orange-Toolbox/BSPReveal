@@ -1,0 +1,38 @@
+"UnlitTwoTexture"
+{
+	"$basetexture" "toolspro/toolstrigger"
+	"$texture2" "toolspro/toolsscan"
+
+	"$additive" 1
+	"$nocull" "1"
+	"$color" "[1 0.5 0.1]"
+
+	"%compiletrigger" 1
+	
+	"$basetexturetransform" "center 0 0 scale 0.25 0.25 rotate 0 translate 0 0"
+	"$texture2transform" "center 0 0 scale 0.25 0.25 rotate 0 translate 0 0"
+
+	"$texrot" "45"
+	"$texscale" "1"
+	"$texcenter" "[0 0]"
+	"$texoffset" "[0 0]"
+	
+
+	Proxies
+	{	
+		"linearramp"
+		{
+			"rate" .3
+			"initialvalue" 0
+			"resultvar" "$texoffset[1]"
+		}
+		"TextureTransform"
+		{
+			"rotatevar" "$texrot"
+			"scaleVar" "$texscale"
+			"centerVar" "$texcenter"
+			"translateVar" "$texoffset"
+			"resultVar" "$texture2transform"
+		}
+	}
+}

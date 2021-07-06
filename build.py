@@ -14,8 +14,10 @@ with open('drawbbbrushes/_constants.py', 'w') as f:
 PyInstaller.__main__.run([
     'drawbbbrushes\__main__.py',
     '-F',
-    '-p',
-    'drawbbbrushes',
-    '-n',
-    exename,
+    '-p', 'drawbbbrushes',
+    '-n', exename,
+    '--add-data',
+    'drawbbbrushes//assets//toolstrigger.vmt;assets',
+    '--add-data',
+    'drawbbbrushes//assets//toolstrigger.vtf;assets'
 ])

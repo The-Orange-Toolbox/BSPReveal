@@ -1,0 +1,8 @@
+"Patch"
+{
+	include materials\toolspro\toolstrigger.vmt
+	insert { 
+		"$basetexture" "toolspro/toolscapture"
+		"$color" "[0.5 0.1 0.5]"
+	} 
+}

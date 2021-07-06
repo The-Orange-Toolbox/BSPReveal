@@ -1,0 +1,8 @@
+"Patch"
+{
+	include materials\toolspro\toolstrigger.vmt
+	insert {
+		"$basetexture" "toolspro/toolsregenerate"
+		"$color" "[0.1 0.9 0.5]"
+	} 
+}

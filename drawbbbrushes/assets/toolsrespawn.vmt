@@ -1,0 +1,8 @@
+"Patch"
+{
+	include materials\toolspro\toolstrigger.vmt
+	insert {
+		"$basetexture" "toolspro/toolsrespawn"
+		"$color" "[0.3 0.7 0.1]"
+	} 
+}
