@@ -17,16 +17,15 @@
 	"$texcenter" "[0 0]"
 	"$texoffset" "[0 0]"
 	
-
-	Proxies
+	"Proxies"
 	{	
-		"linearramp"
+		"TextureScroll"
 		{
-			"rate" .3
-			"initialvalue" 0
-			"resultvar" "$texoffset[1]"
+            "texturescrollrate" "0.3"
+            "texturescrollangle" "90"
+			"texturescrollvar" "$texoffset"
 		}
-		"TextureTransform"
+		TextureTransform
 		{
 			"rotatevar" "$texrot"
 			"scaleVar" "$texscale"
