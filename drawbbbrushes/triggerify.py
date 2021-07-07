@@ -33,7 +33,12 @@ def inject_pak(bsp, materials):
     materials = [m+s for m in materials for s in ['.vmt', '.vtf']]
     materials = [m.split('/')[-1].lower() for m in materials]
     zippath = os.path.join(tempfile.gettempdir(), str(uuid.uuid4()))
-
+    
+    if not materials:
+        return
+    else:
+        materials.append('toolsscan.vtf')
+    
     with open(zippath, 'wb') as zipfile:
         zipfile.write(bsp[40])
 
