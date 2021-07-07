@@ -16,10 +16,12 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--output', metavar='path', type=ascii, default='',
                         help='Where to save the modified bsp (overwrites the original by default)')
 
-    print('Community Tool - {name}.exe ({date})\n'.format(name=NAME,
-                                                          date=BUILD_DATE))
+    parser.add_argument('-v', '--version', action='version', version=VERSION)
 
     args = parser.parse_args()
+
+    print('Community Tool - {name}.exe ({date})\n'.format(name=NAME,
+                                                          date=BUILD_DATE))
     in_bsp = eval(args.input)
     out_bsp = eval(args.output) or in_bsp
 
