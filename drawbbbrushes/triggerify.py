@@ -68,11 +68,6 @@ def triggerify(in_bsp, out_bsp):
     }
 
     for ent in bsp[0]:
-        target = None
-        for k, v in ent:
-            if k == 'classname' and v in ent_targets.keys():
-                target = v
-
         target = [v for k, v in ent if k == 'classname']
         if target and target[0] in ent_targets.keys():
             ent_targets[target[0]].append(ent)
