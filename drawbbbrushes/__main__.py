@@ -3,6 +3,7 @@ import traceback
 from datetime import datetime
 
 from clipify import clipify
+from dispify import dispify
 from triggerify import triggerify
 from _constants import *
 
@@ -26,6 +27,7 @@ if __name__ == '__main__':
     try:
         initial_time = datetime.now()
         clipify(in_bsp, out_bsp)
+        dispify(in_bsp, out_bsp)
         triggerify(in_bsp, out_bsp)
 
         elapsed_time = datetime.now() - initial_time
