@@ -39,6 +39,7 @@ if __name__ == '__main__':
 
         clipify(bsp)
         dispify(bsp)
+        spawnify(bsp)
         triggerify(bsp)
 
         print('Writing {}'.format(os.path.abspath(out_bsp)))
