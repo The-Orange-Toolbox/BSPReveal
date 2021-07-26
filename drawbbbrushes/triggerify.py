@@ -6,8 +6,6 @@ from zipfile import ZipFile
 
 import shutil
 
-from valvebsp import Bsp
-
 TEXMAP = {
     'trigger_hurt': 'TOOLSPRO/TOOLSHURT',
     'trigger_multiple': 'TOOLSPRO/TOOLSTRIGGER',
@@ -24,7 +22,7 @@ def get_asset_paths(asset_name):
     bundle_dir = getattr(sys, '_MEIPASS', script_dir)
     asset_dir = os.path.join(bundle_dir, 'assets')
 
-    internal_path = os.path.join('/materials/toolspro/', asset_name)
+    internal_path = os.path.join('materials/toolspro/', asset_name)
     external_path = os.path.abspath(os.path.join(asset_dir, asset_name))
     return (external_path, internal_path)
 
@@ -33,24 +31,25 @@ def inject_pak(bsp, materials):
     materials = [m+s for m in materials for s in ['.vmt', '.vtf']]
     materials = [m.split('/')[-1].lower() for m in materials]
     zippath = os.path.join(tempfile.gettempdir(), str(uuid.uuid4()))
-    
+
     if not materials:
         return
     else:
         materials.append('toolsscan.vtf')
-    
+
     with open(zippath, 'wb') as zipfile:
         zipfile.write(bsp[40])
 
     with ZipFile(zippath, 'a') as zipfile:
-        [zipfile.write(*get_asset_paths(m)) for m in materials]
+        zipassets = [x.lower() for x in zipfile.namelist()]
+        addassets = [get_asset_paths(m) for m in materials]
+        [zipfile.write(*a) for a in addassets if a[1].lower() not in zipassets]
 
     with open(zippath, 'rb') as zipfile:
         bsp[40] = zipfile.read()
 
 
-def triggerify(in_bsp, out_bsp):
-    bsp = Bsp(in_bsp)
+def triggerify(bsp):
 
     tnameids = [x for x in range(len(bsp[43])) if
                 bsp[43][x].upper() == 'TOOLS/TOOLSTRIGGER']
@@ -85,7 +84,8 @@ def triggerify(in_bsp, out_bsp):
             tnameid = len(bsp[43]) - 1
 
         # inject texture data
-        tdata = [x for x in bsp[2] if x.nameStringTableID == tnameid]
+        tdata = next(
+            (x for x in bsp[2] if x.nameStringTableID == tnameid), None)
         if tdata:
             tdataid = bsp[2].index(tdata)
         else:
@@ -128,10 +128,12 @@ def triggerify(in_bsp, out_bsp):
             if len(bsp[58]):
                 bsp[58][faceid].texinfo = new_texinfo
 
+    brush_count = 0
     for ent_type, ents in ent_targets.items():
+        brush_count += len(ents)
         reassign(ent_type, ents)
 
     materials = [TEXMAP[k] for k, v in ent_targets.items() if v]
     inject_pak(bsp, materials)
 
-    bsp.save(out_bsp)
+    print('{} trigger brushes modified.'.format(brush_count))

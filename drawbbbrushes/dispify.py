@@ -1,15 +1,11 @@
 import os
 import random
-from valvebsp import Bsp
 from construct.core import Int8ul
 from valvebsp.structs.common import ColorRGBExp32
 from valvebsp.structs.flags import dispinfo_flags8
 
 
-def dispify(in_bsp, out_bsp):
-
-    print('Loading {}'.format(os.path.abspath(in_bsp)))
-    bsp = Bsp(in_bsp)
+def dispify(bsp):
 
     ENT_ORIGIN = [v for k, v in bsp[0][0] if k == 'world_mins'][0]
 
@@ -117,11 +113,12 @@ def dispify(in_bsp, out_bsp):
               'too many dynamic lights are present in the map')
         return
 
-    if insert_lightmaps(7, 8) or \
-       insert_lightmaps(58, 53):
+    disp_count_ldr = insert_lightmaps(7, 8)
+    disp_count_hdr = insert_lightmaps(58, 53)
+    disp_count = disp_count_ldr or disp_count_hdr
+    if disp_count:
         insert_light_with_style('__disp_vis_off', styleids[0], 0)
         insert_light_with_style('__disp_vis_on', styleids[1], 1)
         insert_logic_branch()
 
-    print('Writing {}'.format(os.path.abspath(out_bsp)))
-    bsp.save(out_bsp)
+    print('{} displacement brushes tagged.'.format(disp_count))

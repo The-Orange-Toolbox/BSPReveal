@@ -1,10 +1,15 @@
+import os
 import argparse
 import traceback
 from datetime import datetime
 
+from valvebsp import Bsp
+
 from clipify import clipify
 from dispify import dispify
+from spawnify import spawnify
 from triggerify import triggerify
+
 from _constants import *
 
 if __name__ == '__main__':
@@ -28,9 +33,16 @@ if __name__ == '__main__':
 
     try:
         initial_time = datetime.now()
-        clipify(in_bsp, out_bsp)
-        dispify(in_bsp, out_bsp)
-        triggerify(in_bsp, out_bsp)
+
+        print('Loading {}'.format(os.path.abspath(in_bsp)))
+        bsp = Bsp(in_bsp)
+
+        clipify(bsp)
+        dispify(bsp)
+        triggerify(bsp)
+
+        print('Writing {}'.format(os.path.abspath(out_bsp)))
+        bsp.save(out_bsp)
 
         elapsed_time = datetime.now() - initial_time
         elapsed_secs = elapsed_time.total_seconds()
