@@ -3,12 +3,14 @@ import datetime
 import glob
 from sys import platform
 
+orgname = 'The Orange Toolbox'
 exename = 'BSPReveal'
 builddate = datetime.datetime.now().strftime('%b %d %Y')
 version = "1.0"
 
 # Write version info into _constants.py resource file
 with open('src/_constants.py', 'w') as f:
+    f.write("ORGNAME = \"{}\"\n".format(orgname))
     f.write("NAME = \"{}\"\n".format(exename))
     f.write("VERSION = \"{}\"\n".format(version))
     f.write("BUILD_DATE = \"{}\"\n".format(builddate))
