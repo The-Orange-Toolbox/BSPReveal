@@ -35,17 +35,17 @@ def dispify(bsp):
 
     def insert_logic_branch():
         bsp[0].append([['origin', ENT_ORIGIN],
-                       ['targetname', 'disp_vis'],
+                       ['targetname', 'vis_disp'],
                        ['classname', 'logic_branch'],
                        ['hammerid', '-1']])
         bsp[0].append([['origin', ENT_ORIGIN],
-                       ['targetname', '__disp_vis_event'],
+                       ['targetname', '__vis_disp_event'],
                        ['classname', 'logic_branch_listener'],
-                       ['Branch01', 'disp_vis'],
-                       ['OnAllTrue', '__disp_vis_on' + ',TurnOn,,0,-1'],
-                       ['OnAllTrue', '__disp_vis_off' + ',TurnOff,,0,-1'],
-                       ['OnAllFalse', '__disp_vis_on' + ',TurnOff,,0,-1'],
-                       ['OnAllFalse', '__disp_vis_off' + ',TurnOn,,0,-1']])
+                       ['Branch01', 'vis_disp'],
+                       ['OnAllTrue', '__vis_disp_on' + ',TurnOn,,0,-1'],
+                       ['OnAllTrue', '__vis_disp_off' + ',TurnOff,,0,-1'],
+                       ['OnAllFalse', '__vis_disp_on' + ',TurnOff,,0,-1'],
+                       ['OnAllFalse', '__vis_disp_off' + ',TurnOn,,0,-1']])
 
     def insert_light_with_style(name, styleid, spawnflag):
         bsp[0].append([['origin', ENT_ORIGIN],
@@ -117,8 +117,8 @@ def dispify(bsp):
     disp_count_hdr = insert_lightmaps(58, 53)
     disp_count = disp_count_ldr or disp_count_hdr
     if disp_count:
-        insert_light_with_style('__disp_vis_off', styleids[0], 0)
-        insert_light_with_style('__disp_vis_on', styleids[1], 1)
+        insert_light_with_style('__vis_disp_off', styleids[0], 0)
+        insert_light_with_style('__vis_disp_on', styleids[1], 1)
         insert_logic_branch()
 
     print('{} displacement brushes tagged.'.format(disp_count))
