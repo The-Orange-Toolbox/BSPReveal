@@ -9,23 +9,28 @@ def _fmt(val):
         return str(int(val))
 
 
+spawn_classes = ['info_player_teamspawn', 'info_player_start']
+
+
 def spawnify(bsp):
     ent_targets = []
 
     # find info_player_teamspawns
     for ent in bsp[0]:
         target = [v for k, v in ent if k == 'classname']
-        if target and target[0] == 'info_player_teamspawn':
+        if target and target[0] == spawn_classes:
             ent_targets.append(ent)
 
     # group spawns together
     groups = {}
     for ent in ent_targets:
+        classn = _getentval(ent, 'classname')
         teamid = _getentval(ent, 'teamnum')
         cpoint = _getentval(ent, 'controlpoint')
         rround = _getentval(ent, 'round_redspawn')
         bround = _getentval(ent, 'round_bluespawn')
-        groups.setdefault((teamid, cpoint, rround, bround), []).append(ent)
+        groups.setdefault(
+            (classn, teamid, cpoint, rround, bround), []).append(ent)
 
     # offset spawn according to group order
     for k, group in groups.items():

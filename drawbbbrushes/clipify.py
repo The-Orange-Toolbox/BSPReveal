@@ -5,7 +5,7 @@ from valvebsp.lumps import *
 
 def clipify(bsp):
 
-    brush_count = 0
+    clip_brush_count = grate_brush_count = block_brush_count = 0
 
     for brush in bsp[LUMP_BRUSHES]:
         brush_side = bsp[LUMP_BRUSHSIDES][brush.firstSide]
@@ -13,13 +13,24 @@ def clipify(bsp):
         texdata = bsp[LUMP_TEXDATA][texinfo.texData]
         texname = bsp[LUMP_TEXDATA_STRING_DATA][texdata.nameStringTableID]
 
-        if brush.contents.CONTENTS_GRATE:
+        if brush.contents.CONTENTS_MONSTERCLIP and \
+           brush.contents.CONTENTS_PLAYERCLIP:
+            # Retag clip brushes as playerclip brushes
+            brush.contents.CONTENTS_MONSTERCLIP = False
+            clip_brush_count += 1
+        elif brush.contents.CONTENTS_GRATE:
+            # Retag grate solidity as clip brushes
             brush.contents.CONTENTS_MONSTERCLIP = True
             brush.contents.CONTENTS_PLAYERCLIP = True
-            brush_count += 1
-
+            grate_brush_count += 1
         elif texname.startswith('TOOLS/TOOLSBLOCKBULLETS'):
+            # Tag blobkbullet and npcclip brushes
             brush.contents.CONTENTS_MONSTERCLIP = True
-            brush_count += 1
+            block_brush_count += 1
 
-    print('{} blockbullet brushes modified.'.format(brush_count))
+    if clip_brush_count:
+        print('{} clip brushes modified.'.format(clip_brush_count))
+    if block_brush_count:
+        print('{} blockbullet brushes modified.'.format(block_brush_count))
+    if grate_brush_count:
+        print('{} grate brushes modified.'.format(grate_brush_count))
