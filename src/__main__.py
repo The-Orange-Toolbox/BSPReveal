@@ -20,7 +20,7 @@ if __name__ == '__main__':
                         help='The path of the BSP to modify.')
 
     parser.add_argument('-o', '--output', metavar='path', type=ascii, default='',
-                        help='Where to save the modified bsp (overwrites the original by default)')
+                        help='Where to save the modified bsp (overwrites the original if not specified)')
 
     parser.add_argument('-v', '--version', action='version', version=VERSION)
 
@@ -51,6 +51,7 @@ if __name__ == '__main__':
         print('{:.1f} seconds elapsed'.format(elapsed_secs))
 
     except Exception as e:
-        print('something went wrong')
+        print('There is a problem with ' + NAME)
+        print('Please report issues here: https://github.com/The-Orange-Toolbox/BSPReveal/issues')
         traceback.print_exc()
         print(e)

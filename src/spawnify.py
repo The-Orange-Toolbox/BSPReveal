@@ -40,4 +40,5 @@ def spawnify(bsp):
             origin_val[2] += (index * 4)
             origin[1] = ' '.join([_fmt(v) for v in origin_val])
 
-    print('{} spawns modified.'.format(len(ent_targets)))
+    if len(ent_targets):
+        print('{} spawns modified.'.format(len(ent_targets)))

@@ -90,10 +90,11 @@ def triggerify(bsp):
             tdataid = bsp[2].index(tdata)
         else:
             base_tdata = [x for x in bsp[2] if x.nameStringTableID in tdataids]
-            base_tdata = base_tdata[0].copy()
-            base_tdata.nameStringTableID = tnameid
-            bsp[2].append(base_tdata)
-            tdataid = len(bsp[2]) - 1
+            if base_tdata:
+                base_tdata = base_tdata[0].copy()
+                base_tdata.nameStringTableID = tnameid
+                bsp[2].append(base_tdata)
+                tdataid = len(bsp[2]) - 1
 
         # inject texture info
         tinfo_reassigns = {}
@@ -136,4 +137,5 @@ def triggerify(bsp):
     materials = [TEXMAP[k] for k, v in ent_targets.items() if v]
     inject_pak(bsp, materials)
 
-    print('{} trigger brushes modified.'.format(brush_count))
+    if brush_count:
+        print('{} trigger brushes modified.'.format(brush_count))

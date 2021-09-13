@@ -116,9 +116,10 @@ def dispify(bsp):
     disp_count_ldr = insert_lightmaps(7, 8)
     disp_count_hdr = insert_lightmaps(58, 53)
     disp_count = disp_count_ldr or disp_count_hdr
+
     if disp_count:
         insert_light_with_style('__vis_disp_off', styleids[0], 0)
         insert_light_with_style('__vis_disp_on', styleids[1], 1)
         insert_logic_branch()
+        print('{} displacement brushes tagged.'.format(disp_count))
 
-    print('{} displacement brushes tagged.'.format(disp_count))
