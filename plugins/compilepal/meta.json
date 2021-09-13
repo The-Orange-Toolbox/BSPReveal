@@ -1,0 +1,11 @@
+{
+  "Name": "BSPREVEAL",
+  "Path": "Parameters\\BSPREVEAL\\BSPReveal.exe",
+  "Order": 3.9,
+  "DoRun": true,
+  "ReadOutput": true,
+  "Description": "Reveal various BSP elements previously unable to be visualised",
+  "Warning": "Untested outside TF2",
+  "PresetDefault": false,
+  "BasisString": " $bsp$"
+}
