@@ -11,7 +11,7 @@ exeName = 'BSPReveal'
 builddate = datetime.datetime.now().strftime('%b %d %Y')
 version = "1.0"
 distDir = './dist/' + exeName + '-v' + str(version)
-exeDir = distDir + '/BSPReveal'
+exeDir = distDir + '/' + exeName
 
 # Write version info into _constants.py resource file
 with open('src/_constants.py', 'w') as f:

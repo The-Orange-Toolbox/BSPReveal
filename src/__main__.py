@@ -5,6 +5,8 @@ from datetime import datetime
 
 from valvebsp import Bsp
 
+from updater import check_for_updates
+
 from clipify import clipify
 from dispify import dispify
 from spawnify import spawnify
@@ -34,6 +36,8 @@ if __name__ == '__main__':
 
     try:
         initial_time = datetime.now()
+
+        check_for_updates()
 
         print('Loading {}'.format(os.path.abspath(in_bsp)))
         bsp = Bsp(in_bsp)
