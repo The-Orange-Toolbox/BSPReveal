@@ -33,11 +33,11 @@ if __name__ == '__main__':
                                                  date=BUILD_DATE))
     in_bsp = eval(args.input)
     out_bsp = eval(args.output) or in_bsp
+    
+    check_for_updates()
 
     try:
         initial_time = datetime.now()
-
-        check_for_updates()
 
         print('Loading {}'.format(os.path.abspath(in_bsp)))
         bsp = Bsp(in_bsp)

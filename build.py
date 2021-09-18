@@ -2,14 +2,14 @@ import PyInstaller.__main__
 import datetime
 import glob
 import os
+import re
 from sys import platform
 from shutil import copyfile, copy, make_archive
-
 
 orgName = 'The Orange Toolbox'
 exeName = 'BSPReveal'
 builddate = datetime.datetime.now().strftime('%b %d %Y')
-version = "1.0"
+version = "1.1.0"
 distDir = './dist/' + exeName + '-v' + str(version)
 exeDir = distDir + '/' + exeName
 
@@ -38,9 +38,20 @@ for asset_path in glob.glob('src/assets/*'):
 PyInstaller.__main__.run(args + assets)
 
 # Copy other bundle files
-copyfile('./README.md', distDir + '/readme.txt')
 copy('./plugins/compilepal/meta.json', exeDir)
 copy('./plugins/compilepal/parameters.json', exeDir)
+
+# Edit README.md to produce a readme.txt
+f = open('./README.md')
+re_omit = r'\[comment\]\: <> \(start txt omit\).*\[comment\]: <> \(end txt omit\)'
+readmetxt = re.sub(re_omit, '', f.read(), flags=re.S)
+f.close()
+
+f = open(distDir + '/readme.txt', "r+")
+f.seek(0)
+f.write(readmetxt)
+f.truncate()
+f.close()
 
 # Zip the package
 try:
