@@ -111,7 +111,7 @@ def dispify(bsp):
                         face.styles[i] = styleids[0]
                         break
 
-            if styleids[1] not in face.styles[styles_count]:
+            if styleids[1] not in face.styles:
                 # assign default style
                 face.styles[styles_count] = styleids[1]
 

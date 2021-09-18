@@ -14,11 +14,12 @@ spawn_classes = ['info_player_teamspawn', 'info_player_start']
 
 def spawnify(bsp):
     ent_targets = []
+    spawn_count = 0
 
     # find info_player_teamspawns
     for ent in bsp[0]:
         target = [v for k, v in ent if k == 'classname']
-        if target and target[0] == spawn_classes:
+        if target and target[0] in spawn_classes:
             ent_targets.append(ent)
 
     # group spawns together
@@ -29,8 +30,9 @@ def spawnify(bsp):
         cpoint = _getentval(ent, 'controlpoint')
         rround = _getentval(ent, 'round_redspawn')
         bround = _getentval(ent, 'round_bluespawn')
+        zvalue = [float(x) for x in _getentval(ent, 'origin').split(' ')][2]
         groups.setdefault(
-            (classn, teamid, cpoint, rround, bround), []).append(ent)
+            (classn, teamid, cpoint, rround, bround, zvalue), []).append(ent)
 
     # offset spawn according to group order
     for k, group in groups.items():
@@ -38,7 +40,9 @@ def spawnify(bsp):
             origin = next(x for x in ent if x[0] == 'origin')
             origin_val = [float(x) for x in origin[1].split(' ')]
             origin_val[2] += (index * 4)
+            if index > 0:
+                spawn_count += 1
             origin[1] = ' '.join([_fmt(v) for v in origin_val])
 
-    if len(ent_targets):
-        print('{} spawns modified.'.format(len(ent_targets)))
+    if spawn_count:
+        print('{} spawns modified.'.format(spawn_count))
