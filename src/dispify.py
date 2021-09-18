@@ -22,8 +22,26 @@ def dispify(bsp):
         value -= value % 2
         return COLORS.get(value, None)
 
+    def find_existing_style_id():
+        preexisting = {}
+        for ent in bsp[0]:
+            target = [v for k, v in ent if k == 'targetname']
+            if target and target[0] in ['__vis_disp_on',
+                                        '__vis_disp_off',
+                                        'vis_disp']:
+                preexisting[target[0]] = ent
+
+        if '__vis_disp_on' in preexisting.keys() and \
+           '__vis_disp_off' in preexisting.keys():
+            styleon = [v for k, v in preexisting['__vis_disp_on']
+                       if k == 'style'][0]
+            styleoff = [v for k, v in preexisting['__vis_disp_off']
+                        if k == 'style'][0]
+            return ([int(styleoff), int(styleon)])
+        return None
+
     def find_style_id(lump_faces):
-        unused_styles = range(32, 64)
+        unused_styles = list(range(32, 64))
         for face in bsp[lump_faces]:
             for style in face.styles:
                 if style in unused_styles:
@@ -81,32 +99,40 @@ def dispify(bsp):
             # check face eligibility
             if face.lightofs == -1 or \
                face.dispinfo == -1 or \
-               styles_count == 4 or not luxel:
+               styles_count == 4 or \
+               not luxel:
                 continue
 
             # insert style into face
-            face.styles[styles_count] = styleids[1]
-            for i in range(len(face.styles)):
-                if face.styles[i] == 0:
-                    face.styles[i] = styleids[0]
-                    break
+            if styleids[0] not in face.styles:
+                # reassign default style
+                for i in range(len(face.styles)):
+                    if face.styles[i] == 0:
+                        face.styles[i] = styleids[0]
+                        break
 
-            # insert additional lightmap
-            texinfo = bsp[6][face.texinfo]
-            lightmap_size = (face.lightmapTextureSizeInLuxels[0] + 1) *\
-                            (face.lightmapTextureSizeInLuxels[1] + 1)
-            lightmap_size *= 4 if texinfo.flags.SURF_BUMPLIGHT else 1
-            lightmap = [luxel for i in range(lightmap_size)]
-            lightmap_index = face.lightofs // ColorRGBExp32.sizeof()
-            lightmap_index += lightmap_size * styles_count
+            if styleids[1] not in face.styles[styles_count]:
+                # assign default style
+                face.styles[styles_count] = styleids[1]
 
-            bsp[lump_lighting][lightmap_index:lightmap_index] = lightmap
+                # insert additional lightmap
+                texinfo = bsp[6][face.texinfo]
+                lightmap_size = (face.lightmapTextureSizeInLuxels[0] + 1) *\
+                                (face.lightmapTextureSizeInLuxels[1] + 1)
+                lightmap_size *= 4 if texinfo.flags.SURF_BUMPLIGHT else 1
+                lightmap = [luxel for i in range(lightmap_size)]
+                lightmap_index = face.lightofs // ColorRGBExp32.sizeof()
+                lightmap_index += lightmap_size * styles_count
 
-            lightofs += lightmap_size * ColorRGBExp32.sizeof()
-            disp_count += 1
+                bsp[lump_lighting][lightmap_index:lightmap_index] = lightmap
+
+                lightofs += lightmap_size * ColorRGBExp32.sizeof()
+                disp_count += 1
+
         return disp_count
 
-    styleids = find_style_id(7) or find_style_id(58)
+    preexisting_styleids = find_existing_style_id()
+    styleids = preexisting_styleids or find_style_id(7) or find_style_id(58)
 
     if not styleids:
         print('Could not tag displacements: ' +
@@ -118,8 +144,8 @@ def dispify(bsp):
     disp_count = disp_count_ldr or disp_count_hdr
 
     if disp_count:
-        insert_light_with_style('__vis_disp_off', styleids[0], 0)
-        insert_light_with_style('__vis_disp_on', styleids[1], 1)
-        insert_logic_branch()
+        if not preexisting_styleids:
+            insert_light_with_style('__vis_disp_off', styleids[0], 0)
+            insert_light_with_style('__vis_disp_on', styleids[1], 1)
+            insert_logic_branch()
         print('{} displacement brushes tagged.'.format(disp_count))
-
