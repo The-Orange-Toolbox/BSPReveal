@@ -53,9 +53,11 @@ if __name__ == '__main__':
         elapsed_time = datetime.now() - initial_time
         elapsed_secs = elapsed_time.total_seconds()
         print('{:.1f} seconds elapsed'.format(elapsed_secs))
+        exit(0)
 
     except Exception as e:
         print('There is a problem with ' + NAME)
         print('Please report issues here: https://github.com/The-Orange-Toolbox/BSPReveal/issues')
         traceback.print_exc()
         print(e)
+        exit(1)
