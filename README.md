@@ -2,7 +2,7 @@
 Reveal various BSP elements previously unable to be visualised. BSPReveal is a map compile tool that add in-game functionality to your map. Some features are powered by existing console commands, others are new commands. Improved visualization allows for better debugging but note that BSPReveal is also relevant for your released maps. Players can now provide better feedback with more powerful screenshots and learn about various invisible elements to increase their mastery of your map. 
 
 Download: [see the release page](https://github.com/The-Orange-Toolbox/BSPReveal/releases)
-[comment]: <> (start txt omit)
+<!--- start txt omit -->
 
 ## Feature overview
 Using `r_drawclipbrushes 2`
@@ -20,7 +20,7 @@ Using `map_showspawnpoints`
 Using `showtriggers_toggle`
 
 ![alt text](https://github.com/The-Orange-Toolbox/BSPReveal/blob/master/docs/bspreveal_infographic_trigger.jpg?raw=true "showtriggers_toggle")
-[comment]: <> (end txt omit)
+<!--- end txt omit -->
 ## Installation
 
 ### Using with CompilePal
