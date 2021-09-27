@@ -5,10 +5,8 @@ from datetime import datetime
 
 from valvebsp import Bsp
 
-from totcommon.logger import print_header, stdout
-from totcommon.updater import check_updates
-from totcommon.reporter import ErrorReporter
-from totcommon.stopwatch import StopWatch
+from totcommon.executable import TOTExecutable
+from totcommon.logger import stdout
 
 from clipify import clipify
 from dispify import dispify
@@ -31,13 +29,11 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    print_header(ORGNAME, NAME, BUILD_DATE)
-    check_updates(NAME, VERSION, URL)
+    with TOTExecutable(NAME, ORGNAME, URL, VERSION, BUILD_DATE):
 
-    in_bsp = eval(args.input)
-    out_bsp = eval(args.output) or in_bsp
+        in_bsp = eval(args.input)
+        out_bsp = eval(args.output) or in_bsp
 
-    with ErrorReporter(NAME, URL), StopWatch():
         stdout('Loading {}'.format(os.path.abspath(in_bsp)))
         bsp = Bsp(in_bsp)
 
