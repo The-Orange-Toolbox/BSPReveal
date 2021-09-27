@@ -3,6 +3,7 @@ import random
 from construct.core import Int8ul
 from valvebsp.structs.common import ColorRGBExp32
 from valvebsp.structs.flags import dispinfo_flags8
+from totcommon.logger import stdout
 
 
 def dispify(bsp):
@@ -135,8 +136,8 @@ def dispify(bsp):
     styleids = preexisting_styleids or find_style_id(7) or find_style_id(58)
 
     if not styleids:
-        print('Could not tag displacements: ' +
-              'too many dynamic lights are present in the map')
+        stdout('Could not tag displacements: ' +
+               'too many dynamic lights are present in the map')
         return
 
     disp_count_ldr = insert_lightmaps(7, 8)
@@ -148,4 +149,4 @@ def dispify(bsp):
             insert_light_with_style('__vis_disp_off', styleids[0], 0)
             insert_light_with_style('__vis_disp_on', styleids[1], 1)
             insert_logic_branch()
-        print('{} displacement brushes tagged.'.format(disp_count))
+        stdout('{} displacement brushes tagged.'.format(disp_count))

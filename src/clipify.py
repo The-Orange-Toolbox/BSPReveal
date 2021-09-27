@@ -1,7 +1,7 @@
 import os
 
 from valvebsp.lumps import *
-
+from totcommon.logger import stdout
 
 def clipify(bsp):
 
@@ -29,8 +29,8 @@ def clipify(bsp):
             block_brush_count += 1
 
     if clip_brush_count:
-        print('{} clip brushes modified.'.format(clip_brush_count))
+        stdout('{} clip brushes modified.'.format(clip_brush_count))
     if block_brush_count:
-        print('{} blockbullet brushes modified.'.format(block_brush_count))
+        stdout('{} blockbullet brushes modified.'.format(block_brush_count))
     if grate_brush_count:
-        print('{} grate brushes modified.'.format(grate_brush_count))
+        stdout('{} grate brushes modified.'.format(grate_brush_count))

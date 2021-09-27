@@ -3,6 +3,7 @@ import sys
 import uuid
 import tempfile
 from zipfile import ZipFile
+from totcommon.logger import stdout
 
 import shutil
 
@@ -138,4 +139,4 @@ def triggerify(bsp):
     inject_pak(bsp, materials)
 
     if brush_count:
-        print('{} trigger brushes modified.'.format(brush_count))
+        stdout('{} trigger brushes modified.'.format(brush_count))

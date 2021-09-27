@@ -5,7 +5,10 @@ from datetime import datetime
 
 from valvebsp import Bsp
 
-from updater import check_for_updates
+from totcommon.logger import print_header, stdout
+from totcommon.updater import check_updates
+from totcommon.reporter import ErrorReporter
+from totcommon.stopwatch import StopWatch
 
 from clipify import clipify
 from dispify import dispify
@@ -28,18 +31,14 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    print('{org} - {name}.exe ({date})\n'.format(org=ORGNAME,
-                                                 name=NAME,
-                                                 date=BUILD_DATE))
+    print_header(ORGNAME, NAME, BUILD_DATE)
+    check_updates(NAME, VERSION, URL)
+
     in_bsp = eval(args.input)
     out_bsp = eval(args.output) or in_bsp
-    
-    check_for_updates()
 
-    try:
-        initial_time = datetime.now()
-
-        print('Loading {}'.format(os.path.abspath(in_bsp)))
+    with ErrorReporter(NAME, URL), StopWatch():
+        stdout('Loading {}'.format(os.path.abspath(in_bsp)))
         bsp = Bsp(in_bsp)
 
         clipify(bsp)
@@ -47,17 +46,6 @@ if __name__ == '__main__':
         spawnify(bsp)
         triggerify(bsp)
 
-        print('Writing {}'.format(os.path.abspath(out_bsp)))
+        stdout('Writing {}'.format(os.path.abspath(out_bsp)))
         bsp.save(out_bsp)
 
-        elapsed_time = datetime.now() - initial_time
-        elapsed_secs = elapsed_time.total_seconds()
-        print('{:.1f} seconds elapsed'.format(elapsed_secs))
-        exit(0)
-
-    except Exception as e:
-        print('There is a problem with ' + NAME)
-        print('Please report issues here: https://github.com/The-Orange-Toolbox/BSPReveal/issues')
-        traceback.print_exc()
-        print(e)
-        exit(1)

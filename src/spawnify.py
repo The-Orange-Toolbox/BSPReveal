@@ -1,6 +1,7 @@
+from totcommon.logger import stdout
+
 def _getentval(ent, key):
     return next((v for k, v in ent if k.lower() == key), None)
-
 
 def _fmt(val):
     if val % 1:
@@ -45,4 +46,4 @@ def spawnify(bsp):
             origin[1] = ' '.join([_fmt(v) for v in origin_val])
 
     if spawn_count:
-        print('{} spawns modified.'.format(spawn_count))
+        stdout('{} spawns modified.'.format(spawn_count))
