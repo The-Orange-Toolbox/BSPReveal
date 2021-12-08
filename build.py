@@ -10,7 +10,7 @@ orgName = 'The Orange Toolbox'
 url = 'https://github.com/The-Orange-Toolbox/BSPReveal'
 exeName = 'BSPReveal'
 builddate = datetime.datetime.now().strftime('%b %d %Y')
-version = "1.1.0"
+version = "1.2.0"
 distDir = './dist/' + exeName + '-v' + str(version)
 exeDir = distDir + '/' + exeName
 iconPath = './icon/icon.ico'
@@ -51,7 +51,7 @@ re_omit = r'<!--- start txt omit -->.*<!--- end txt omit -->'
 readmetxt = re.sub(re_omit, '', f.read(), flags=re.S)
 f.close()
 
-f = open(distDir + '/readme.txt', "r+")
+f = open(distDir + '/readme.txt', "w+")
 f.seek(0)
 f.write(readmetxt)
 f.truncate()

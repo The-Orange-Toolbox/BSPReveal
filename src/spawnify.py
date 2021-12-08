@@ -27,13 +27,14 @@ def spawnify(bsp):
     groups = {}
     for ent in ent_targets:
         classn = _getentval(ent, 'classname')
+        targetn = _getentval(ent, 'targetname')
         teamid = _getentval(ent, 'teamnum')
         cpoint = _getentval(ent, 'controlpoint')
         rround = _getentval(ent, 'round_redspawn')
         bround = _getentval(ent, 'round_bluespawn')
         zvalue = [float(x) for x in _getentval(ent, 'origin').split(' ')][2]
         groups.setdefault(
-            (classn, teamid, cpoint, rround, bround, zvalue), []).append(ent)
+            (classn, targetn, teamid, cpoint, rround, bround, zvalue), []).append(ent)
 
     # offset spawn according to group order
     for k, group in groups.items():
