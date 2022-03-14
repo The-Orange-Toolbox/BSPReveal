@@ -27,6 +27,24 @@ if __name__ == '__main__':
 
     parser.add_argument('-v', '--version', action='version', version=VERSION)
 
+    parser.add_argument('-a', '--all', action='store_true',
+                        help='Runs all operations (clip, disp, spawn, trigger)')
+
+    parser.add_argument('-c', '--clip', action='store_true',
+                        help='Runs clip operations for "r_drawclipbrushes 2"')
+
+    parser.add_argument('-d', '--disp', action='store_true',
+                        help='Runs disp operations for "ent_fire vis_disp toggle"')
+
+    parser.add_argument('-s', '--spawn', action='store_true',
+                        help='Runs spawn operations for "map_showspawnpoints"')
+
+    parser.add_argument('--spawn-delta', type=int, default=4,
+                        help='The height delta to be added between spawns')
+
+    parser.add_argument('-t', '--trigger', action='store_true',
+                        help='Runs trigger operations for "showtriggers_toggle"')
+
     args = parser.parse_args()
 
     with TOTExecutable(NAME, ORGNAME, URL, VERSION, BUILD_DATE):
@@ -37,11 +55,16 @@ if __name__ == '__main__':
         stdout('Loading {}'.format(os.path.abspath(in_bsp)))
         bsp = Bsp(in_bsp)
 
-        clipify(bsp)
-        dispify(bsp)
-        spawnify(bsp)
-        triggerify(bsp)
+        specified = args.all or args.clip or args.disp or args.spawn or args.trigger
+
+        if not specified or args.all or args.clip:
+            clipify(bsp)
+        if not specified or args.all or args.disp:
+            dispify(bsp)
+        if not specified or args.all or args.spawn:
+            spawnify(bsp, args.spawn_delta)
+        if not specified or args.all or args.trigger:
+            triggerify(bsp)
 
         stdout('Writing {}'.format(os.path.abspath(out_bsp)))
         bsp.save(out_bsp)
-

@@ -1,1 +1,51 @@
-[]
+[
+    {
+        "Name": "All",
+        "Parameter": " --all",
+        "Description": "Enables all operations (clip, disp, spawn, trigger).",
+        "Value": "",
+        "CanHaveValue": false,
+        "Warning": ""
+    },
+    {
+        "Name": "Clip and blockbullet",
+        "Parameter": " --clip",
+        "Description": "Enables clip operations for \"r_drawclipbrushes 2\".",
+        "Value": "",
+        "CanHaveValue": false,
+        "Warning": ""
+    },
+    {
+        "Name": "Displacements",
+        "Parameter": " --disp",
+        "Description": "Enables disp operations for \"ent_fire vis_disp toggle\".",
+        "Value": "",
+        "CanHaveValue": false,
+        "Warning": ""
+    },
+    {
+        "Name": "Spawn points",
+        "Parameter": " --spawn",
+        "Description": "Enables spawn operations for \"map_showspawnpoints\".",
+        "Value": "",
+        "CanHaveValue": false,
+        "Warning": "Can move spawn points into blocked positions."
+    },
+    {
+        "Name": "Spawn delta",
+        "Parameter": " --spawn-delta",
+        "Description": "The height difference to be applied between spawnpoints (hammer units, default 4).",
+        "Value": "",
+        "CanHaveValue": true,
+        "Warning": "Can move spawn points into blocked positions."
+    },
+    {
+        "Name": "triggers",
+        "Parameter": " --trigger",
+        "Description": "Enables trigger operations for \"showtriggers_toggle\".",
+        "Value": "",
+        "CanHaveValue": false,
+        "Warning": ""
+    }
+
+]

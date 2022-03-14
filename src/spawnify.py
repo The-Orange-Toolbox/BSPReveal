@@ -1,7 +1,9 @@
 from totcommon.logger import stdout
 
+
 def _getentval(ent, key):
     return next((v for k, v in ent if k.lower() == key), None)
+
 
 def _fmt(val):
     if val % 1:
@@ -13,7 +15,7 @@ def _fmt(val):
 spawn_classes = ['info_player_teamspawn', 'info_player_start']
 
 
-def spawnify(bsp):
+def spawnify(bsp, delta=4):
     ent_targets = []
     spawn_count = 0
 
@@ -41,7 +43,7 @@ def spawnify(bsp):
         for index, ent in enumerate(group):
             origin = next(x for x in ent if x[0] == 'origin')
             origin_val = [float(x) for x in origin[1].split(' ')]
-            origin_val[2] += (index * 4)
+            origin_val[2] += (index * delta)
             if index > 0:
                 spawn_count += 1
             origin[1] = ' '.join([_fmt(v) for v in origin_val])
