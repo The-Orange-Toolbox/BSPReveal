@@ -1,5 +1,5 @@
 ORGNAME = "The Orange Toolbox"
 NAME = "BSPReveal"
-VERSION = "1.2.0"
-BUILD_DATE = "Dec 08 2021"
+VERSION = "1.3.0"
+BUILD_DATE = "Mar 14 2022"
 URL = "https://github.com/The-Orange-Toolbox/BSPReveal"
