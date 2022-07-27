@@ -94,14 +94,19 @@ def dispify(bsp):
         for face in bsp[lump_faces]:
             # prep
             styles_count = len([x for x in face.styles if x != 255])
-            luxel = make_luxel(bsp[26][face.dispinfo])
-            face.lightofs += lightofs
+
+            if face.lightofs != -1:
+                face.lightofs += lightofs
 
             # check face eligibility
             if face.lightofs == -1 or \
                face.dispinfo == -1 or \
-               styles_count == 4 or \
-               not luxel:
+               styles_count == 4:
+                continue
+
+            luxel = make_luxel(bsp[26][face.dispinfo])
+
+            if not luxel:
                 continue
 
             # insert style into face
